@@ -72,7 +72,7 @@
 	margin-bottom: 7px;
 	padding-left: 7px;
 	text-transform: uppercase;
-	color: #aaaaaa;
+	color: #c0a3a3;
 	font-size: 70px;
 	font-family: tahoma;
 	border-left: 3px solid;
@@ -99,7 +99,7 @@
 
 
 .about-boxx{
- box-shadow: 0 0 0 10px #000000 inset;
+ box-shadow: 0 0 0 10px #000000a6 inset;
  margin-right: 0;
  margin-top: 0;
  position: relative;
