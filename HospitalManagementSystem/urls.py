@@ -39,5 +39,6 @@ urlpatterns = [
     path('unread_queries', unread_queries, name='unread_queries'),
     path('read_queries', read_queries, name='read_queries'),
     path('view_queries/<int:pid>', view_queries, name='view_queries'),
-
+    
+    
 ]

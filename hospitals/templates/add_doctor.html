@@ -3,66 +3,148 @@
 {% block content %}
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+
 {% if error == "no" %}
-     <script>
-	   alert('Record Save Successfully');
-       window.location=('{% url 'view_doctor' %}');
-     </script>
+<script>
+  alert('Record Save Successfully');
+  window.location = '{% url "view_doctor" %}';
+</script>
 {% endif %}
 
 {% if error == "yes" %}
-     <script>
-	    alert('Something went wrong, Try Again');
-     </script>
+<script>
+  alert('Something went wrong, Try Again');
+</script>
 {% endif %}
 
-<br><br><br><br>
+<br><br><br>
 <div class="container card shadow m-5">
-		<div class="card-body">
-			<h5 class="p-2" style="border-bottom: 2px solid orange">Add Doctors</h5>
-             <br>
-			<div class="container-fluid">
-				<form method="post">
-                    {% csrf_token %}
-					<div class="form-row">
+  <div class="card-body">
+    <h5 class="p-2" style="border-bottom: 2px solid orange">Add Doctors</h5>
+    <br>
+    <div class="container-fluid">
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Doctor Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Enter Doctor Name" required>
+            </div>
+          </div>
 
-						<div class="col-sm-12">
-							<div class="form-group">
-								<label>Doctor Name</label>
-								<input type="text" name="name" class="form-control" placeholder="Enter Doctor Name" required>
-							</div>
-						</div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Contact Number</label>
+              <input type="text" name="mobile" class="form-control" placeholder="Enter Eleven Digit Mobile Number" required>
+            </div>
+          </div>
 
-                    	<div class="col-sm-12">
-							<div class="form-group">
-								<label>Contact Number</label>
-								<input type="text" name="mobile" class="form-control" placeholder="Enter Eleven Digit Mobile Number" required>
-							</div>
-						</div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Specialization</label>
+              <input type="text" name="special" class="form-control" placeholder="Enter Doctor Specialization" required>
+            </div>
+          </div>
 
-						<div class="col-sm-12">
-							<div class="form-group">
-								<label>Specialization</label>
-								<input type="text" name="special" class="form-control" placeholder="Enter Doctor Specialization" required>
-							</div>
-						</div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Doctor Shift Date</label>
+              <input type="date" name="shift_date" class="form-control" required>
+            </div>
+          </div>
 
-                      </div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Shift Start Time</label>
+              <input type="time" name="shift_start_time" class="form-control" required>
+            </div>
+          </div>
 
-					<hr>
-					<input type="submit" value="Submit" class="btn btn-primary">
-				</form>
-			</div>
-		</div>
-	</div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Shift End Time</label>
+              <input type="time" name="shift_end_time" class="form-control" required>
+            </div>
+          </div>
+
+        </div>
+        <hr>
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Search and Export Section -->
+<div class="container mt-4">
+  <h4>Search & Export Doctor Records</h4>
+  <input type="text" id="searchInput" class="form-control" placeholder="Search by name or specialization" onkeyup="searchTable()">
+  <br>
+  <button class="btn btn-success" onclick="exportTableToExcel('doctorTable')">Export to Excel</button>
+  <button class="btn btn-danger" onclick="exportToPDF()">Export to PDF</button>
+
+  <br><br>
+  <table class="table table-bordered" id="doctorTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Specialization</th>
+        <th>Shift Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for doc in doctors %}
+      <tr>
+        <td>{{ doc.name }}</td>
+        <td>{{ doc.mobile }}</td>
+        <td>{{ doc.special }}</td>
+        <td>{{ doc.shift_date }}</td>
+        <td>{{ doc.shift_start_time }}</td>
+        <td>{{ doc.shift_end_time }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+function searchTable() {
+  let input = document.getElementById("searchInput").value.toLowerCase();
+  let rows = document.querySelectorAll("#doctorTable tbody tr");
+
+  rows.forEach(row => {
+    let text = row.innerText.toLowerCase();
+    row.style.display = text.includes(input) ? "" : "none";
+  });
+}
+
+function exportTableToExcel(tableID) {
+  let wb = XLSX.utils.table_to_book(document.getElementById(tableID), {sheet: "Doctors"});
+  XLSX.writeFile(wb, 'Doctor_Records.xlsx');
+}
+
+function exportToPDF() {
+  const { jsPDF } = window.jspdf;
+  let doc = new jsPDF();
+  doc.text("Doctor Records", 20, 10);
+  doc.autoTable({ html: '#doctorTable', startY: 20 });
+  doc.save('Doctor_Records.pdf');
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
 </body>
 </html>

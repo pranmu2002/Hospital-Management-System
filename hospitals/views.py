@@ -58,26 +58,40 @@ def Logout(request):
     return redirect('index')
 
 def add_doctor(request):
-    error=""
+    error = ""
     if not request.user.is_staff:
         return redirect('login')
-    if request.method=='POST':
-        n = request.POST['name']
-        m = request.POST['mobile']
-        sp = request.POST['special']
+
+    if request.method == "POST":
         try:
-            Doctor.objects.create(name=n,mobile=m,special=sp)
-            error="no"
+            name = request.POST['name']
+            mobile = request.POST['mobile']
+            special = request.POST['special']
+            shift_date = request.POST['shift_date']
+            start_time = request.POST['shift_start_time']  
+            end_time = request.POST['shift_end_time']      
+
+            Doctor.objects.create(
+                name=name,
+                mobile=mobile,
+                special=special,
+                shift_date=shift_date,
+                start_time=start_time,
+                end_time=end_time
+            )
+            error = "no"
         except:
-            error="yes"
-    return render(request,'add_doctor.html', locals())
+            error = "yes"
+
+    return render(request, 'add_doctor.html', {'error': error})
 
 def view_doctor(request):
     if not request.user.is_staff:
         return redirect('login')
-    doc = Doctor.objects.all()
-    d = {'doc':doc}
-    return render(request,'view_doctor.html', d)
+    
+    doctors = Doctor.objects.all()
+    context = {'doctors': doctors}
+    return render(request, 'view_doctor.html', context)
 
 def Delete_Doctor(request,pid):
     if not request.user.is_staff:
@@ -218,3 +232,32 @@ def view_queries(request,pid):
     contact.save()
     return render(request,'view_queries.html', locals())
 
+def view_beds(request):
+    beds = Bed.objects.all().order_by('bed_number')
+
+    if request.method == 'POST':
+        if 'bed_id' in request.POST:
+            bed = get_object_or_404(Bed, id=request.POST['bed_id'])
+            form = BedForm(request.POST, instance=bed)
+        else:
+            form = BedForm(request.POST)
+
+        if form.is_valid():
+            bed = form.save(commit=False)
+            bed.is_occupied = True if bed.patient else False
+            bed.save()
+            return redirect('view_beds')
+    else:
+        form = BedForm()
+
+    return render(request, 'hospitals/view_beds.html', {'beds': beds, 'form': form})
+
+def add_bed(request):
+    if request.method == 'POST':
+        form = BedForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('view_beds')
+    else:
+        form = BedForm()
+    return render(request, 'add_bed.html', {'form': form})
