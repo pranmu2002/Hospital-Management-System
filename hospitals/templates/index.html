@@ -3,20 +3,20 @@
 {% block body %}
 
 <head>
-  <style media="screen">
+  <style>
     .jumbotron {
-      width : 150;
-      height : 550px;
+      width: 100%;
+      height: 100vh;  /* Full height of viewport */
       background-image: url('{% static "images/h123.jpg" %}');
       background-size: cover;
       background-repeat: no-repeat;
-    }
-
-    .jumbotron h5,
-    h3 {
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
       text-align: center;
     }
-
 
     .alert {
       margin: 0px;
@@ -25,7 +25,7 @@
     .glow {
       font-size: 50px;
       color: black;
-      margin-right : 5px;
+      margin-right: 5px;
       text-align: center;
       -webkit-animation: glow 1s ease-in-out infinite alternate;
       -moz-animation: glow 1s ease-in-out infinite alternate;
@@ -42,12 +42,11 @@
     }
   </style>
 </head>
-<br>
-<br>
 
-<div class="jumbotron" style="margin-bottom: 0px;margin-top: 0px;">
-  <br><br>
+<br><br>
+
+<div class="jumbotron">
   <h5 class="display-3 glow">"WELCOME TO METROPOLITAN HOSPITAL"</h5>
-  <br><br><br><br>
 </div>
-{% endblock%}
+
+{% endblock %}
