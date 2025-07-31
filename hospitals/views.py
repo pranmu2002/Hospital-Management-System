@@ -208,7 +208,7 @@ def read_queries(request):
     if not request.user.is_authenticated:
         return redirect('login')
     contact = Contact.objects.filter(isread="yes")
-    return render(request,'read_queries.html', locals())
+    return render(request,'unread_queries.html', locals())
 
 def view_queries(request,pid):
     if not request.user.is_authenticated:
