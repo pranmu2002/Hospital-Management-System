@@ -124,51 +124,47 @@ def edit_doctor(request,pid):
 
 def add_patient(request):
     error = ""
-    if not request.user.is_staff:
-        return redirect('login')
-    if request.method == 'POST':
-        n = request.POST['name']
-        g = request.POST['gender']
-        m = request.POST['mobile']
-        a = request.POST['address']
+    if request.method == "POST":
         try:
-            Patient.objects.create(name=n, gender=g, mobile=m, address=a)
+            name = request.POST['name']
+            mobile = request.POST['mobile']
+            gender = request.POST['gender']
+            address = request.POST['address']
+            department = request.POST['department']
+            bed_number = request.POST['bed_number']
+
+            Patient.objects.create(
+                name=name,
+                mobile=mobile,
+                gender=gender,
+                address=address,
+                department=department,
+                bed_number=bed_number
+            )
             error = "no"
         except:
             error = "yes"
-    return render(request,'add_patient.html', locals())
+    return render(request, 'add_patient.html', locals())
 
 def view_patient(request):
-    if not request.user.is_staff:
-        return redirect('login')
-    pat = Patient.objects.all()
-    d = {'pat':pat}
-    return render(request,'view_patient.html', d)
+    patients = Patient.objects.all()
+    return render(request, 'view_patient.html', {'patients': patients})
 
-def Delete_Patient(request,pid):
-    if not request.user.is_staff:
-        return redirect('login')
+def delete_patient(request, pid):
+    Patient.objects.get(id=pid).delete()
+    return redirect('view_patient')
+
+def edit_patient(request, pid):
     patient = Patient.objects.get(id=pid)
-    patient.delete()
-    return redirect('view_patient.html')
-
-def edit_patient(request,pid):
     error = ""
-    if not request.user.is_authenticated:
-        return redirect('login')
-    user = request.user
-    patient = Patient.objects.get(id=pid)
     if request.method == "POST":
-        n1 = request.POST['name']
-        m1 = request.POST['mobile']
-        g1 = request.POST['gender']
-        a1 = request.POST['address']
-
-        patient.name = n1
-        patient.mobile = m1
-        patient.gender = g1
-        patient.address = a1
         try:
+            patient.name = request.POST['name']
+            patient.mobile = request.POST['mobile']
+            patient.gender = request.POST['gender']
+            patient.address = request.POST['address']
+            patient.department = request.POST['department']
+            patient.bed_number = request.POST['bed_number']
             patient.save()
             error = "no"
         except:
@@ -232,32 +228,6 @@ def view_queries(request,pid):
     contact.save()
     return render(request,'view_queries.html', locals())
 
-def view_beds(request):
-    beds = Bed.objects.all().order_by('bed_number')
-
-    if request.method == 'POST':
-        if 'bed_id' in request.POST:
-            bed = get_object_or_404(Bed, id=request.POST['bed_id'])
-            form = BedForm(request.POST, instance=bed)
-        else:
-            form = BedForm(request.POST)
-
-        if form.is_valid():
-            bed = form.save(commit=False)
-            bed.is_occupied = True if bed.patient else False
-            bed.save()
-            return redirect('view_beds')
-    else:
-        form = BedForm()
-
-    return render(request, 'hospitals/view_beds.html', {'beds': beds, 'form': form})
-
-def add_bed(request):
-    if request.method == 'POST':
-        form = BedForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('view_beds')
-    else:
-        form = BedForm()
-    return render(request, 'add_bed.html', {'form': form})
+def bed_details(request):
+    patients = Patient.objects.all()
+    return render(request, 'bed_details.html', {'patients': patients})

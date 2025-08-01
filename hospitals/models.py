@@ -14,11 +14,7 @@ class Doctor(models.Model):
     def __str__(self):
        return self.name;
 
-class Department(models.Model):
-    name = models.CharField(max_length=100, unique=True)
 
-    def __str__(self):
-        return self.name
 
 
 class Patient(models.Model):
@@ -26,18 +22,12 @@ class Patient(models.Model):
     gender = models.CharField(max_length=10)
     mobile = models.IntegerField(null=True)
     address = models.CharField(max_length=50)
+    department = models.CharField(null=True, blank=True)  
+    bed_number = models.CharField(null=True, blank=True)   
 
     def __str__(self):
        return self.name;
 
-class Bed(models.Model):
-    bed_number = models.CharField(max_length=10, unique=True)
-    is_occupied = models.BooleanField(default=False)
-    patient = models.OneToOneField(Patient, on_delete=models.SET_NULL, null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return f"Bed {self.bed_number} - {'Occupied' if self.is_occupied else 'Free'}"
 
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor,on_delete=models.CASCADE)

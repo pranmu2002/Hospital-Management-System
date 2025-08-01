@@ -9,33 +9,25 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-
   <link rel="stylesheet" href="{% static 'style.css' %}">
-
 
   <style media="screen">
     a:link {
       text-decoration: none;
     }
-
     a {
       color: white;
     }
-
     a:hover {
       color: white;
     }
-
     body {
-
       padding-left: 240px;
     }
     main {
       position: relative;
       height: 100vh;
     }
-
     .menu {
       background: #21446B;
       height: 100vh;
@@ -54,13 +46,12 @@
     .menu .avatar img {
       width: 100px;
       border-radius: 50%;
-      overflow: hidden;
       border: 4px solid #ffea92;
       box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
     }
-    .menu .avatar h2 {
-      font-weight: normal;
-      margin-bottom: 0;
+    .menu .avatar h6 {
+      color: white;
+      margin-top: 10px;
     }
     .menu ul {
       list-style: none;
@@ -70,68 +61,25 @@
     .menu ul li {
       padding: 0.5em 1em 0.5em 3em;
       font-size: 0.95em;
-      font-weight: regular;
       background-repeat: no-repeat;
       background-position: left 15px center;
       background-size: auto 20px;
       transition: all 0.15s linear;
       cursor: pointer;
     }
-    .menu ul li.icon-dashboard {
-      background-image: url("http://www.entypo.com/images//gauge.svg");
-    }
-    .menu ul li.icon-customers {
-      background-image: url("http://www.entypo.com/images//briefcase.svg");
-    }
-    .menu ul li.icon-users {
-      background-image: url("http://www.entypo.com/images//users.svg");
-    }
-    .menu ul li.icon-calendar {
-      background-image: url("http://www.entypo.com/images//calendar.svg");
-    }
+    .menu ul li.icon-dashboard { background-image: url("http://www.entypo.com/images//gauge.svg"); }
+    .menu ul li.icon-customers { background-image: url("http://www.entypo.com/images//briefcase.svg"); }
+    .menu ul li.icon-users { background-image: url("http://www.entypo.com/images//users.svg"); }
+    .menu ul li.icon-calendar { background-image: url("http://www.entypo.com/images//calendar.svg"); }
+    .menu ul li:hover { background-color: rgba(0, 0, 0, 0.1); }
+    .menu ul li:focus { outline: none; }
 
-    .menu ul li:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-    .menu ul li:focus {
-      outline: none;
-    }
     @media screen and (max-width: 900px) and (min-width: 400px) {
-      body {
-        padding-left: 90px;
-      }
-      .menu {
-        width: 90px;
-      }
-      .menu .avatar {
-        padding: 0.5em;
-        position: relative;
-      }
-      .menu .avatar img {
-        width: 60px;
-      }
-      .menu .avatar h2 {
-        opacity: 0;
-        position: absolute;
-        top: 50%;
-        left: 100px;
-        margin: 0;
-        min-width: 200px;
-        border-radius: 4px;
-        background: rgba(0, 0, 0, 0.4);
-        transform: translate3d(-20px, -50%, 0);
-        transition: all 0.15s ease-in-out;
-      }
-      .menu .avatar:hover h2 {
-        opacity: 1;
-        transform: translate3d(0px, -50%, 0);
-      }
-      .menu ul li {
-        height: 60px;
-        background-position: center center;
-        background-size: 30px auto;
-        position: relative;
-      }
+      body { padding-left: 90px; }
+      .menu { width: 90px; }
+      .menu .avatar { padding: 0.5em; }
+      .menu .avatar img { width: 60px; }
+      .menu ul li { height: 60px; background-position: center center; background-size: 30px auto; position: relative; }
       .menu ul li span {
         opacity: 0;
         position: absolute;
@@ -160,16 +108,19 @@
         transform: translate3d(0px, -50%, 0);
       }
     }
+
     @media screen and (max-width: 400px) {
-      body {
-        padding-left: 0;
-      }
+      body { padding-left: 0; }
       .menu {
         width: 230px;
-        box-shadow: 0 0 0 100em rgba(0, 0, 0, 0);
         transform: translate3d(-230px, 0, 0);
         transition: all 0.3s ease-in-out;
       }
+      .menu:focus {
+        transform: translate3d(0, 0, 0);
+        box-shadow: 0 0 0 100em rgba(0, 0, 0, 0.6);
+      }
+      .menu ul li { padding: 1em 1em 1em 3em; font-size: 1.2em; }
       .menu .smartphone-menu-trigger {
         width: 40px;
         height: 40px;
@@ -191,70 +142,64 @@
       }
       .menu .smartphone-menu-trigger:after {
         top: 55%;
-        transform: translate3d(-50%, -50%, 0);
-      }
-      .menu ul li {
-        padding: 1em 1em 1em 3em;
-        font-size: 1.2em;
-      }
-      .menu:focus {
-        transform: translate3d(0, 0, 0);
-        box-shadow: 0 0 0 100em rgba(0, 0, 0, 0.6);
-      }
-      .menu:focus .smartphone-menu-trigger {
-        pointer-events: none;
       }
     }
-
   </style>
 </head>
+
 <body>
-  <!-- partial:index.partial.html -->
   <nav class="menu" tabindex="0">
     <div class="smartphone-menu-trigger"></div>
     <header class="avatar">
       <img src="{% static 'images/h8.png' %}" />
-      <br><br>
-      <h6 style="color : white">Admin</h6>
-
+      <h6>Admin</h6>
     </header>
     <ul>
-      <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="{% url 'admin_home' %}"><span>Dashboard</span></a> </li>
+      <li tabindex="0" class="icon-dashboard">
+        <a style="color:white; text-decoration:none;" href="{% url 'admin_home' %}"><span>Dashboard</span></a>
+      </li>
 
       <li tabindex="0" class="nav-item dropdown icon-customers">
-        <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
-				data-toggle="dropdown" style="color:white; text-decoration:none;"> Doctor</a>
-				<div class="dropdown-menu">
-					<a href="{% url 'add_doctor' %}" class="dropdown-item">Add Doctor</a>
-					<a href="{% url 'view_doctor' %}" class="dropdown-item">View Doctor</a>
-				</div>
+        <a href="#" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
+           data-toggle="dropdown" style="color:white; text-decoration:none;"> Doctor</a>
+        <div class="dropdown-menu">
+          <a href="{% url 'add_doctor' %}" class="dropdown-item">Add Doctor</a>
+          <a href="{% url 'view_doctor' %}" class="dropdown-item">View Doctor</a>
+        </div>
       </li>
 
       <li tabindex="0" class="nav-item dropdown icon-users">
-        <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
-				data-toggle="dropdown" style="color:white; text-decoration:none;"> Patient</a>
-				<div class="dropdown-menu">
-					<a href="{% url 'add_patient' %}" class="dropdown-item">Add Patient</a>
-					<a href="{% url 'view_patient' %}" class="dropdown-item">View Patient</a>
-				</div>
+        <a href="#" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
+           data-toggle="dropdown" style="color:white; text-decoration:none;"> Patient</a>
+        <div class="dropdown-menu">
+          <a href="{% url 'add_patient' %}" class="dropdown-item">Add Patient</a>
+          <a href="{% url 'view_patient' %}" class="dropdown-item">View Patient</a>
+        </div>
       </li>
 
       <li tabindex="0" class="nav-item dropdown icon-calendar">
-        <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
-				data-toggle="dropdown" style="color:white; text-decoration:none;"> Appointment</a>
-				<div class="dropdown-menu">
-					<a href="{% url 'add_appointment' %}" class="dropdown-item">Add Appointment</a>
-					<a href="{% url 'view_appointment' %}" class="dropdown-item">View Appointment</a>
-				</div>
+        <a href="#" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
+           data-toggle="dropdown" style="color:white; text-decoration:none;"> Appointment</a>
+        <div class="dropdown-menu">
+          <a href="{% url 'add_appointment' %}" class="dropdown-item">Add Appointment</a>
+          <a href="{% url 'view_appointment' %}" class="dropdown-item">View Appointment</a>
+        </div>
       </li>
 
-        <li tabindex="0" class="nav-item dropdown icon-calendar">
-        <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
-				data-toggle="dropdown" style="color:white; text-decoration:none;"> View Queries</a>
-				<div class="dropdown-menu">
-					<a href="{% url 'unread_queries' %}" class="dropdown-item">Unread Queries</a>
-					<a href="{% url 'read_queries' %}" class="dropdown-item">Read Queries</a>
-				</div>
+      <li tabindex="0" class="nav-item dropdown icon-calendar">
+        <a href="#" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop"
+           data-toggle="dropdown" style="color:white; text-decoration:none;"> View Queries</a>
+        <div class="dropdown-menu">
+          <a href="{% url 'unread_queries' %}" class="dropdown-item">Unread Queries</a>
+          <a href="{% url 'read_queries' %}" class="dropdown-item">Read Queries</a>
+        </div>
+      </li>
+
+      <!-- ✅ Added Bed Details menu item -->
+      <li tabindex="0" class="icon-calendar">
+        <a href="{% url 'bed_details' %}" style="color:white; text-decoration:none;">
+          <i class="fa fa-bed"></i> Bed Details
+        </a>
       </li>
     </ul>
   </nav>
@@ -268,8 +213,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-          <div class="navbar-nav" style=" margin-left: 90%;">
-
+          <div class="navbar-nav ml-auto">
             <a href="{% url 'logout' %}" class="nav-item nav-link"><i class="fas fa-power-off"></i> Logout</a>
           </div>
         </div>
@@ -279,7 +223,6 @@
 
     <!-- content start-->
     {% block content %}
-
     {% endblock content %}
     <!-- content end-->
   </main>
