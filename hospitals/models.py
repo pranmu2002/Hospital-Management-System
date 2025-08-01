@@ -28,6 +28,16 @@ class Patient(models.Model):
     def __str__(self):
        return self.name;
 
+class Payment(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    total_fees = models.DecimalField(max_digits=10, decimal_places=2)
+    paid = models.DecimalField(max_digits=10, decimal_places=2)
+    unpaid = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.patient.name} Payment"
+
 
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor,on_delete=models.CASCADE)

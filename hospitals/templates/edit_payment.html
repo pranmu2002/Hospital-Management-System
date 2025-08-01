@@ -1,0 +1,43 @@
+{% extends 'admin_nav.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4">Edit Payment</h2>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-group mb-3">
+      <label><strong>Patient Name</strong></label>
+      <input type="text" class="form-control" value="{{ payment.patient.name }}" readonly>
+    </div>
+
+    <div class="form-group mb-3">
+      <label><strong>Department</strong></label>
+      <input type="text" class="form-control" value="{{ payment.patient.department }}" readonly>
+    </div>
+
+    <div class="form-group mb-3">
+      <label><strong>Bed Number</strong></label>
+      <input type="text" class="form-control" value="{{ payment.patient.bed_number }}" readonly>
+    </div>
+
+    <div class="form-group mb-3">
+      <label><strong>Total Fees</strong></label>
+      <input type="number" name="total_fees" class="form-control" value="{{ payment.total_fees }}" required>
+    </div>
+
+    <div class="form-group mb-4">
+      <label><strong>Paid</strong></label>
+      <input type="number" name="paid" class="form-control" value="{{ payment.paid }}" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Update Payment</button>
+    <a href="{% url 'view_payments' %}" class="btn btn-secondary ml-2">Cancel</a>
+  </form>
+</div>
+{% endblock %}
+

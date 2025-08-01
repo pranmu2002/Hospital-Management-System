@@ -40,6 +40,12 @@ urlpatterns = [
     path('read_queries', read_queries, name='read_queries'),
     path('view_queries/<int:pid>', view_queries, name='view_queries'),
     path('bed_details/', bed_details, name='bed_details'),
+    path('add_payment/', add_payment, name='add_payment'),
     
-    
+    path('view_payments/', view_payments, name='view_payments'),
+
+    path('edit_payment/<int:id>/', edit_payment, name='edit_payment'),
+    path('delete_payment/<int:id>/', delete_payment, name='delete_payment'),
+    path('download_receipt/<int:id>/', download_receipt, name='download_receipt'),
+
 ]

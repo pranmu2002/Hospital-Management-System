@@ -3,6 +3,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,logout,login
 from .models import *
 from datetime import date
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Payment, Patient
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.http import HttpResponse
+from .models import Payment
+
+
+
+
+from io import BytesIO
 
 # Create your views here.
 
@@ -201,6 +212,8 @@ def view_appointment(request):
     d = {'appointment':appointment}
     return render(request,'view_appointment.html', d)
 
+
+
 def Delete_Appointment(request,pid):
     if not request.user.is_staff:
         return redirect('login')
@@ -231,3 +244,65 @@ def view_queries(request,pid):
 def bed_details(request):
     patients = Patient.objects.all()
     return render(request, 'bed_details.html', {'patients': patients})
+
+def add_payment(request):
+    patients = Patient.objects.all()
+    if request.method == "POST":
+        patient_id = request.POST.get('patient_id')
+        total_fees = request.POST.get('total_fees')
+        paid = request.POST.get('paid')
+
+        patient = Patient.objects.get(id=patient_id)
+        unpaid = float(total_fees) - float(paid)
+
+        Payment.objects.create(
+            patient=patient,
+            total_fees=total_fees,
+            paid=paid,
+            unpaid=unpaid
+        )
+        return redirect('view_payments')  # redirect to the payment list view
+
+    return render(request, 'add_payment.html', {'patients': patients})
+
+def view_payments(request):
+    payments = Payment.objects.select_related('patient').all()
+    return render(request, 'view_payments.html', {'payments': payments})
+
+def delete_payment(request, id):
+    payment = get_object_or_404(Payment, id=id)
+    payment.delete()
+    return redirect('view_payments')
+
+def edit_payment(request, id):
+    payment = get_object_or_404(Payment, id=id)
+    if request.method == 'POST':
+        total_fees = int(request.POST.get('total_fees', 0))
+        paid = int(request.POST.get('paid', 0))
+
+        if paid > total_fees:
+            return render(request, 'edit_payment.html', {'payment': payment, 'error': 'Paid amount cannot be more than total fees.'})
+
+        unpaid = total_fees - paid
+        payment.total_fees = total_fees
+        payment.paid = paid
+        payment.unpaid = unpaid
+        payment.save()
+
+        return redirect('view_payments')
+
+    return render(request, 'edit_payment.html', {'payment': payment})
+
+
+def download_receipt(request, id):
+    payment = get_object_or_404(Payment, id=id)
+    template = get_template('receipt_template.html')
+    html = template.render({'payment': payment})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="receipt_{payment.patient.name}.pdf"'
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('PDF generation error')
+    return response

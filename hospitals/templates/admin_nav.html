@@ -201,6 +201,16 @@
           <i class="fa fa-bed"></i> Bed Details
         </a>
       </li>
+
+      <!-- ✅ Added Payment menu item -->
+      <li tabindex="0" class="nav-item dropdown icon-calendar">
+        <a href="#" class="nav-link dropdown-toggle text-dark bg-light" data-toggle="dropdown" style="color:white; text-decoration:none;"> Payment</a>
+        <div class="dropdown-menu">
+          <a href="{% url 'add_payment' %}" class="dropdown-item">Add Payment</a>
+          <a href="{% url 'view_payments' %}" class="dropdown-item">View Payment</a>
+        </div>
+      </li>
+
     </ul>
   </nav>
 
@@ -228,3 +238,4 @@
   </main>
 </body>
 </html>
+

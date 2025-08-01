@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Payment Receipt</title>
+  <style>
+    body { font-family: Arial; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 8px; border: 1px solid #000; }
+    h2 { text-align: center; }
+  </style>
+</head>
+<body>
+  <h2>Payment Receipt</h2>
+  <table>
+    <tr><th>Patient Name</th><td>{{ payment.patient.name }}</td></tr>
+    <tr><th>Department</th><td>{{ payment.patient.department }}</td></tr>
+    <tr><th>Bed Number</th><td>{{ payment.patient.bed_number }}</td></tr>
+    <tr><th>Total Fees</th><td>{{ payment.total_fees }}</td></tr>
+    <tr><th>Paid</th><td>{{ payment.paid }}</td></tr>
+    <tr><th>Unpaid</th><td>{{ payment.unpaid }}</td></tr>
+    <tr><th>Date</th><td>{{ payment.date }}</td></tr>
+  </table>
+</body>
+</html>
