@@ -27,7 +27,7 @@ urlpatterns = [
     path('logout', Logout, name='logout'),
     path('add_doctor', add_doctor, name='add_doctor'),
     path('view_doctor/', view_doctor, name='view_doctor'),
-    path('delete_doctor/<int:pid>', Delete_Doctor, name='Delete_Doctor'),
+    path('delete_doctor/<int:id>', delete_doctor, name='delete_doctor'),
     path('add_patient', add_patient, name='add_patient'),
     path('view_patient', view_patient, name='view_patient'),
     path('delete_patient/<int:pid>', delete_patient, name='delete_patient'),
@@ -41,9 +41,7 @@ urlpatterns = [
     path('view_queries/<int:pid>', view_queries, name='view_queries'),
     path('bed_details/', bed_details, name='bed_details'),
     path('add_payment/', add_payment, name='add_payment'),
-    
     path('view_payments/', view_payments, name='view_payments'),
-
     path('edit_payment/<int:id>/', edit_payment, name='edit_payment'),
     path('delete_payment/<int:id>/', delete_payment, name='delete_payment'),
     path('download_receipt/<int:id>/', download_receipt, name='download_receipt'),

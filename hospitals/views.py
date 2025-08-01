@@ -13,6 +13,7 @@ from .models import Payment
 
 
 
+
 from io import BytesIO
 
 # Create your views here.
@@ -87,8 +88,8 @@ def add_doctor(request):
                 mobile=mobile,
                 special=special,
                 shift_date=shift_date,
-                start_time=start_time,
-                end_time=end_time
+                shift_start_time=start_time,
+                shift_end_time=end_time
             )
             error = "no"
         except:
@@ -104,12 +105,10 @@ def view_doctor(request):
     context = {'doctors': doctors}
     return render(request, 'view_doctor.html', context)
 
-def Delete_Doctor(request,pid):
-    if not request.user.is_staff:
-        return redirect('login')
-    doctor = Doctor.objects.get(id=pid)
+def delete_doctor(request, id):
+    doctor = get_object_or_404(Doctor, id=id)
     doctor.delete()
-    return redirect('view_doctor.html')
+    return redirect('view_doctor')
 
 def edit_doctor(request,pid):
     error = ""
@@ -277,8 +276,8 @@ def delete_payment(request, id):
 def edit_payment(request, id):
     payment = get_object_or_404(Payment, id=id)
     if request.method == 'POST':
-        total_fees = int(request.POST.get('total_fees', 0))
-        paid = int(request.POST.get('paid', 0))
+        total_fees = float(request.POST.get('total_fees', 0))
+        paid = float(request.POST.get('paid', 0))
 
         if paid > total_fees:
             return render(request, 'edit_payment.html', {'payment': payment, 'error': 'Paid amount cannot be more than total fees.'})

@@ -9,8 +9,8 @@ class Doctor(models.Model):
 
     # New fields
     shift_date = models.DateField(null=True, blank=True)
-    start_time = models.TimeField(null=True, blank=True)
-    end_time = models.TimeField(null=True, blank=True)
+    shift_start_time = models.TimeField(null=True, blank=True)
+    shift_end_time = models.TimeField(null=True, blank=True)
     def __str__(self):
        return self.name;
 
