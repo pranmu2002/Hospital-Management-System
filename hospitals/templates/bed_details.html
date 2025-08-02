@@ -4,14 +4,55 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    .card {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #fdfdfd;
+      border-radius: 10px;
+    }
+
+    .card-body h5 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff6600;
+    }
+
+    #searchInput {
+      margin-bottom: 15px;
+    }
+
+    table th {
+      background-color: #f8c471;
+      color: black;
+    }
+
+    table td, table th {
+      text-align: center;
+    }
+  </style>
+  <script>
+    function searchTable() {
+      let input = document.getElementById("searchInput").value.toLowerCase();
+      let rows = document.querySelectorAll("#bedTable tbody tr");
+
+      rows.forEach(function(row) {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+      });
+    }
+  </script>
 </head>
 <body>
 <br><br><br>
 <div class="container card shadow">
   <div class="card-body">
     <h5 class="p-2" style="border-bottom: 2px solid orange">Bed Details</h5>
+    
+    <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control" placeholder="Search by patient, department, or bed number...">
+
     <div class="table-responsive">
-      <table class="table table-bordered table-striped">
+      <table id="bedTable" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>Sr No</th>
@@ -41,3 +82,4 @@
 </body>
 </html>
 {% endblock content %}
+

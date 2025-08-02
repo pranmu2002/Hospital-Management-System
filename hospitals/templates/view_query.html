@@ -1,0 +1,41 @@
+{% extends 'admin_nav.html' %}
+{% block content %}
+
+<div class="container mt-5 card shadow p-4">
+  <h4 class="mb-4" style="border-bottom: 2px solid orange">View Enquiry</h4>
+
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ contact.name }}</td>
+        <th>Contact No.</th>
+        <td>{{ contact.contact }}</td>
+      </tr>
+      <tr>
+        <th>Email ID</th>
+        <td>{{ contact.email }}</td>
+        <th>Subject</th>
+        <td>{{ contact.subject }}</td>
+      </tr>
+      <tr>
+        <th>Message</th>
+        <td colspan="3">{{ contact.message }}</td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td colspan="3">{{ contact.msgdate|date:"F d, Y" }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'unread_queries' %}" class="btn btn-warning">Back to Unread</a>
+    <a href="{% url 'read_queries' %}" class="btn btn-success">View All Read</a>
+  </div>
+</div>
+
+{% endblock %}
+
+
+

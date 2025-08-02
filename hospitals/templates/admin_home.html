@@ -10,6 +10,15 @@
     .market-update-block {
       padding: 2em 2em;
       background: #999;
+      transition: all 0.3s ease-in-out;
+      transform: scale(1);
+      margin-bottom: 30px; /* added spacing between blocks */
+    }
+
+    .market-update-block:hover {
+      background: #3C3C3C;
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .market-update-block h3 {
@@ -31,140 +40,70 @@
       line-height: 1.8em;
     }
 
-    .market-update-block.clr-block-1 {
-      background: #5BC995;
-      margin-right: 0.8em;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-      transition: 0.5s all;
-      -webkit-transition: 0.5s all;
-      -moz-transition: 0.5s all;
-      -o-transition: 0.5s all;
-    }
+    .market-update-block.clr-block-1 { background: #5BC995; margin-right: 0.8em; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
+    .market-update-block.clr-block-2 { background: #795548; margin-right: 0.8em; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
+    .market-update-block.clr-block-3 { background: #009688; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
+    .market-update-block.clr-block-4 { background: #607D8B; margin-right: 0.8em; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
+    .market-update-block.clr-block-5 { background: #673AB7; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); }
 
-    .market-update-block.clr-block-2 {
-      background: #795548;
-      margin-right: 0.8em;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-      transition: 0.5s all;
-      -webkit-transition: 0.5s all;
-      -moz-transition: 0.5s all;
-      -o-transition: 0.5s all;
-    }
-
-    .market-update-block.clr-block-3 {
-      background: #009688;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-      transition: 0.5s all;
-      -webkit-transition: 0.5s all;
-      -moz-transition: 0.5s all;
-      -o-transition: 0.5s all;
-    }
-
-    .market-update-block.clr-block-1:hover {
-      background: #3C3C3C;
-      transition: 0.5s all;
-      -webkit-transition: 0.5s all;
-      -moz-transition: 0.5s all;
-      -o-transition: 0.5s all;
-    }
-
-    .market-update-block.clr-block-2:hover {
-      background: #3C3C3C;
-      transition: 0.5s all;
-      -webkit-transition: 0.5s all;
-      -moz-transition: 0.5s all;
-      -o-transition: 0.5s all;
-    }
-
-    .market-update-block.clr-block-3:hover {
-      background: #3C3C3C;
-      transition: 0.5s all;
-      -webkit-transition: 0.5s all;
-      -moz-transition: 0.5s all;
-      -o-transition: 0.5s all;
-    }
-
-    .market-update-right i.fa.fa-user-o {
+    .market-update-right i.fa {
       font-size: 3em;
-      color: #68AE00;
       width: 80px;
       height: 80px;
       background: #fff;
       text-align: center;
       border-radius: 49px;
-      -webkit-border-radius: 49px;
-      -moz-border-radius: 49px;
-      -o-border-radius: 49px;
       line-height: 1.7em;
+      transition: transform 0.3s ease;
     }
 
-    .market-update-right i.fa.fa-user-md {
-      font-size: 3em;
-      color: #FC8213;
-      width: 80px;
-      height: 80px;
-      background: #fff;
+    .market-update-block:hover .market-update-right i.fa {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    .fa-user-o { color: #68AE00; }
+    .fa-user-md { color: #FC8213; }
+    .fa-calendar { color: #337AB7; }
+    .fa-bed { color: #FF9800; }
+    .fa-money { color: #4CAF50; }
+
+    .market-update-left { padding: 0px; }
+
+    .glow {
+      font-size: 80px;
+      color: #fff;
       text-align: center;
-      border-radius: 49px;
-      -webkit-border-radius: 49px;
-      -moz-border-radius: 49px;
-      -o-border-radius: 49px;
-      line-height: 1.7em;
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
     }
 
-    .market-update-right i.fa.fa-calendar {
-      font-size: 3em;
-      color: #337AB7;
-      width: 80px;
-      height: 80px;
-      background: #fff;
-      text-align: center;
-      border-radius: 49px;
-      -webkit-border-radius: 49px;
-      -moz-border-radius: 49px;
-      -o-border-radius: 49px;
-      line-height: 1.7em;
+    @-webkit-keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
+        0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
+        0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+      }
     }
-
-    .market-update-left {
-      padding: 0px;
-    }
-
-.glow {
-	font-size: 80px;
-	color: #fff;
-	text-align: center;
-	-webkit-animation: glow 1s ease-in-out infinite alternate;
-}
-
-@-webkit-keyframes glow {
-  from {
-  text-shadow :0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
-	0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-  }
-
-  to {
-	text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px
-		#ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-  }
-}
   </style>
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 </head>
 
 <body>
-<br><br><br>
+  <br><br><br>
   <div class="market-updates">
+    <!-- Doctor -->
     <div class="col-md-4 market-update-gd">
       <div class="market-update-block clr-block-1">
         <div class="col-md-8 market-update-left">
           <h3>{{dc}}</h3>
           <h4><a href="{% url 'view_doctor' %}" style="color : white">Total Doctor</a></h4>
-
         </div>
         <div class="col-md-4 market-update-right">
           <i class="fa fa-user-md"></i>
@@ -172,12 +111,13 @@
         <div class="clearfix"> </div>
       </div>
     </div>
+
+    <!-- Patient -->
     <div class="col-md-4 market-update-gd">
       <div class="market-update-block clr-block-2">
         <div class="col-md-8 market-update-left">
           <h3>{{pc}}</h3>
           <h4><a href="{% url 'view_patient' %}" style="color : white;">Total Patient</a></h4>
-
         </div>
         <div class="col-md-4 market-update-right">
           <i class="fa fa-user-o"></i>
@@ -185,12 +125,13 @@
         <div class="clearfix"> </div>
       </div>
     </div>
+
+    <!-- Appointment -->
     <div class="col-md-4 market-update-gd">
       <div class="market-update-block clr-block-3">
         <div class="col-md-8 market-update-left">
           <h3>{{ac}}</h3>
           <h4><a href="{% url 'view_appointment' %}" style="color : white">Total Appointment</a></h4>
-
         </div>
         <div class="col-md-4 market-update-right">
           <i class="fa fa-calendar"> </i>
@@ -198,10 +139,39 @@
         <div class="clearfix"> </div>
       </div>
     </div>
+
+    <!-- Bed Details -->
+    <div class="col-md-6 market-update-gd">
+      <div class="market-update-block clr-block-4">
+        <div class="col-md-8 market-update-left">
+          <h3>&nbsp;</h3>
+          <h4><a href="{% url 'bed_details' %}" style="color : white;">Bed Details</a></h4>
+        </div>
+        <div class="col-md-4 market-update-right">
+          <i class="fa fa-bed"></i>
+        </div>
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+
+    <!-- View Payments -->
+    <div class="col-md-6 market-update-gd">
+      <div class="market-update-block clr-block-5">
+        <div class="col-md-8 market-update-left">
+          <h3>&nbsp;</h3>
+          <h4><a href="{% url 'view_payments' %}" style="color : white;">View Payments</a></h4>
+        </div>
+        <div class="col-md-4 market-update-right">
+          <i class="fa fa-money"></i>
+        </div>
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+
     <div class="clearfix"> </div>
   </div>
-
-
 </body>
 </html>
 {% endblock content %}
+
+

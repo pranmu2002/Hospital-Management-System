@@ -223,22 +223,31 @@ def Delete_Appointment(request,pid):
 def unread_queries(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    contact = Contact.objects.filter(isread="no")
-    return render(request,'unread_queries.html', locals())
+    contacts = Contact.objects.filter(isread="no")
+    return render(request, 'unread_queries.html', {'contacts': contacts})
 
+
+# Read Queries List
 def read_queries(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    contact = Contact.objects.filter(isread="yes")
-    return render(request,'unread_queries.html', locals())
+    contacts = Contact.objects.filter(isread="yes")
+    return render(request, 'read_queries.html', {'contacts': contacts})
 
-def view_queries(request,pid):
+
+# View and mark query as read
+def view_query(request, contact_id):
     if not request.user.is_authenticated:
         return redirect('login')
-    contact = Contact.objects.get(id=pid)
-    contact.isread = "yes"
-    contact.save()
-    return render(request,'view_queries.html', locals())
+    contact = get_object_or_404(Contact, id=contact_id)
+
+    # Mark as read if not already
+    if contact.isread.lower() != "yes":
+        contact.isread = "yes"
+        contact.save()
+
+    return render(request, 'view_query.html', {'contact': contact})
+
 
 def bed_details(request):
     patients = Patient.objects.all()

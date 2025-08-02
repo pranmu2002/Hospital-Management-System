@@ -38,7 +38,8 @@ urlpatterns = [
     path('edit_patient/<int:pid>',edit_patient,name='edit_patient'),
     path('unread_queries', unread_queries, name='unread_queries'),
     path('read_queries', read_queries, name='read_queries'),
-    path('view_queries/<int:pid>', view_queries, name='view_queries'),
+    path('view_query/<int:contact_id>/', view_query, name='view_query'),  # ✅ correct
+
     path('bed_details/', bed_details, name='bed_details'),
     path('add_payment/', add_payment, name='add_payment'),
     path('view_payments/', view_payments, name='view_payments'),

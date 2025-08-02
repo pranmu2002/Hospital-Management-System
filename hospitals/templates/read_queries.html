@@ -1,49 +1,92 @@
 {% extends 'admin_nav.html' %}
-{% load static %}
 {% block content %}
 
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-</head>
+<div class="container mt-5 card shadow p-4">
+  <h3 class="text-center mb-4">Read Enquiry Queries</h3>
 
-<br><br><br><br>
-<div class="container card shadow m-5">
-  <div class="card-body">
-    <h5 class="p-2" style="border-bottom: 2px solid orange">View Enquiry Queries</h5>
-    <div class="container mt-5">
-      <h1 class="text-success text-center"></h1>
-      <table class="table table-bordered">
-        <tr align="center">
-          <td colspan="4" style="font-size: 20px; color: red">View Query Details</td>
-        </tr>
-        <tr>
-          <th>Name</th>
-          <td>{{ contact.name }}</td>
-          <th>Contact No.</th>
-          <td>{{ contact.contact }}</td>
-        </tr>
-        <tr>
-          <th>Email ID</th>
-          <td>{{ contact.email }}</td>
-          <th>Subject</th>
-          <td>{{ contact.subject }}</td>
-        </tr>
-        <tr>
-          <th>Enquiry Message</th>
-          <td colspan="3">{{ contact.message }}</td>
-        </tr>
-        <tr>
-          <th>Enquiry Date</th>
-          <td colspan="3">{{ contact.msgdate }}</td>
-        </tr>
-      </table>
-    </div>
+  <!-- Search input -->
+  <div class="mb-3">
+    <input
+      type="text"
+      id="searchInput"
+      class="form-control"
+      placeholder="Search by name, contact, email, subject or date..."
+      aria-label="Search enquiries"
+    >
   </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-primary">
+      <tr>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="contactTableBody">
+      {% for contact in contacts %}
+        <tr>
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.contact }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.subject }}</td>
+          <td>{{ contact.msgdate }}</td>
+          <td>
+            <a href="{% url 'view_query' contact.id %}" class="btn btn-secondary btn-sm">View</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">No read queries.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
-{% endblock content %}
+<!-- Search filter script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('contactTableBody');
+
+    searchInput.addEventListener('keyup', function () {
+      const filter = searchInput.value.toLowerCase();
+      const rows = tableBody.getElementsByTagName('tr');
+
+      Array.from(rows).forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        let match = false;
+
+        // Check each cell except the last one (Action button)
+        for (let i = 0; i < cells.length - 1; i++) {
+          if (cells[i].textContent.toLowerCase().includes(filter)) {
+            match = true;
+            break;
+          }
+        }
+
+        row.style.display = match ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Highlight hovered rows */
+  table.table-hover tbody tr:hover {
+    background-color: #f1f7ff;
+  }
+  /* Rounded input */
+  #searchInput {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+  }
+</style>
+
+{% endblock %}
+
+

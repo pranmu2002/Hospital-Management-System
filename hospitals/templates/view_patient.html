@@ -4,17 +4,69 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <!-- jsPDF and autotable for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- SheetJS for XLSX export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    /* UX improvements */
+    .container.card {
+      margin-top: 3rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+    }
+
+    h5 {
+      border-bottom: 3px solid orange;
+      padding-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .btn-export {
+      margin-right: 0.5rem;
+    }
+
+    /* Hover highlight for rows */
+    table.table tbody tr:hover {
+      background-color: #f0f8ff;
+    }
+
+    /* Search input styling */
+    #searchInput {
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 400px;
+      padding: 6px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 0.375rem;
+    }
+  </style>
 </head>
 <body>
 
-<br><br><br>
 <div class="container card shadow">
   <div class="card-body">
-    <h5 class="p-2" style="border-bottom: 2px solid orange">Patient List</h5>
+    <h5 class="p-2">Patient List</h5>
+
+    <!-- Search input -->
+    <input type="text" id="searchInput" placeholder="Search patients..." aria-label="Search patients">
+
+    <!-- Export buttons -->
+    <div class="mb-3">
+      <button id="downloadPdf" class="btn btn-primary btn-export">Download PDF</button>
+      <button id="downloadXlsx" class="btn btn-success btn-export">Download Excel</button>
+    </div>
+
     <div class="table-responsive">
-      <table class="table table-bordered table-striped">
+      <table id="patientTable" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>Sr No</th>
@@ -52,6 +104,59 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Search function
+  $(document).ready(function () {
+    $('#searchInput').on('keyup', function () {
+      const value = $(this).val().toLowerCase();
+      $('#patientTable tbody tr').filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+
+    // PDF export
+    $('#downloadPdf').click(function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.text("Patient List", 14, 16);
+
+      // Generate autoTable from html table
+      doc.autoTable({
+        startY: 20,
+        html: '#patientTable',
+        styles: { fontSize: 8 },
+        theme: 'striped',
+        headStyles: { fillColor: [255, 165, 0] }
+      });
+
+      doc.save('patient_list.pdf');
+    });
+
+    // XLSX export
+    $('#downloadXlsx').click(function () {
+      let wb = XLSX.utils.book_new();
+
+      // Clone table, remove last column (action)
+      const table = document.getElementById('patientTable').cloneNode(true);
+
+      // Remove last column (Actions) from headers and rows
+      for (let row of table.rows) {
+        row.deleteCell(-1);
+      }
+
+      // Convert to worksheet
+      let ws = XLSX.utils.table_to_sheet(table);
+
+      XLSX.utils.book_append_sheet(wb, ws, "Patients");
+
+      XLSX.writeFile(wb, "patient_list.xlsx");
+    });
+  });
+</script>
+
 </body>
 </html>
 {% endblock content %}
+
